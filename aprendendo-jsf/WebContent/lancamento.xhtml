@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html 
+		xmlns="http://www.w3.org/1999/xhtml" 
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui = "http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>Cadastro de Lançamenstos</title>
+</h:head>
+
+<h:body>
+	
+	<!-- Pegando o menu.xhtml -->
+	<ui:include src="/menu.xhtml" />
+	
+	<h:form id="formLancamento" style="text-align: center;">
+		<br/>
+		
+		
+		<h1 style="text-align: center;">Cadastro de Lançamento</h1>
+		
+		<h:panelGrid columns="2"  >
+				
+			<h:outputLabel value="Id:" />
+			<h:inputText value="#{lancamentoBean.lancamento.id}"  readonly="true"/>
+			
+			<h:outputLabel value="Número Nota Fiscal:" />
+			<h:inputText value="#{lancamentoBean.lancamento.numeroNotaFiscal}" />
+			
+			<h:outputLabel value="Empresa Origem:" />
+			<h:inputText value="#{lancamentoBean.lancamento.empresaOrigem}" />
+			
+			<h:outputLabel value="Empresa Destino:" />
+			<h:inputText value="#{lancamentoBean.lancamento.empresaDestino}"/>
+			
+			
+		</h:panelGrid> <br/>
+		
+		<h:panelGrid columns="4" >
+		
+			<h:commandButton value="Novo" action="#{lancamentoBean.novo}" />
+			<h:commandButton value="Salvar" action="#{lancamentoBean.salvar}" />
+			<h:commandButton value="Remover" action="#{lancamentoBean.remove}"  rendered="#{pessoaBean.permitirAcesso('ADMINISTRADOR')}"/>
+			<h:commandButton  value="Limpar" type="reset" />
+			
+		</h:panelGrid>
+		
+		<br/>
+		
+		<h4>Lançamentos</h4>
+		<h:dataTable value="#{lancamentoBean.lancamentos}" var="lancamento" border="1">
+		
+			<h:column>
+				<f:facet name="header">ID</f:facet>
+				<h:outputLabel value="#{lancamento.id}"/>
+			</h:column>	
+			<h:column>
+				<f:facet name="header">Número Nota Fiscal</f:facet>
+				<h:outputLabel value="#{lancamento.numeroNotaFiscal}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Empresa Origem</f:facet>
+				<h:outputLabel value="#{lancamento.empresaOrigem}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Empresa Destino</f:facet>
+				<h:outputLabel value="#{lancamento.empresaDestino}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Nome do Emissor</f:facet>
+				<h:outputLabel value="#{lancamento.usuario.nome}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Editar</f:facet>
+				<h:commandLink title="Editar">
+					<h:graphicImage value="/resources/img/editar-icon.png" />
+					<f:setPropertyActionListener value="#{lancamento}" target="#{lancamentoBean.lancamento}"/>
+				</h:commandLink>
+			</h:column>
+			<h:column  rendered="#{pessoaBean.permitirAcesso('ADMINISTRADOR')}">
+				<f:facet name="header">Excluir</f:facet>
+				<h:commandLink action="#{lancamentoBean.remove}" title="Excluir">
+					<h:graphicImage value="/resources/img/delete-icon.png" />
+					<f:setPropertyActionListener value="#{lancamento}" target="#{lancamentoBean.lancamento}"/>
+				</h:commandLink>
+			</h:column>
+
+		</h:dataTable>
+			
+	</h:form>
+	
+</h:body>
+
+</html>
